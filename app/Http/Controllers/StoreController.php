@@ -24,7 +24,7 @@ class StoreController extends Controller
     public function index(): JsonResource
     {
         return StoreResource::collection(
-            $this->service->getPaginated()
+            $this->service->getPaginated(15,['products'])
         );
     }
 

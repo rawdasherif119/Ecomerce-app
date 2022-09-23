@@ -2,10 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\ProductResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class StoreResource extends JsonResource
+class ProductResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +15,9 @@ class StoreResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'name'           => $this->name,
-            'shipping_cost'  => $this->shipping_cost,
-            'vat_percentage' => $this->vat_percentage,
-            'products'       => ProductResource::collection($this->products)
+            'name'        => $this->name,
+            'description' => $this->description,
+            'price'       => $this->price
         ];
     }
 }
