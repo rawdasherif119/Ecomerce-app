@@ -26,16 +26,16 @@ class MerchantStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'           => ['required'],
-            'shipping_cost'  => ['required','integer','min:1'],
+            'name'           => ['required', 'max:100'],
+            'shipping_cost'  => ['required', 'integer', 'min:1'],
             'vat_status'     => ['required', new EnumValue(VatStatus::class, false)],
             'vat_percentage' => [
-                  'required_if:vat_status,'.VatStatus::FROM_PRICE.'',
-                  'nullable',
-                  'integer',
-                  'min:1',
-                  'max:100'
-                ]
+                'required_if:vat_status,' . VatStatus::FROM_PRICE . '',
+                'nullable',
+                'integer',
+                'min:1',
+                'max:100'
+            ]
         ];
     }
 }

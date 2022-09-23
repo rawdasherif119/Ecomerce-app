@@ -2,29 +2,24 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Product;
+use App\Models\Store;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Store extends Model
+class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','shipping_cost','vat_percentage'];
+    protected $fillable = ['name','description', 'price'];
 
     /**
      *--------------------------------------------------------------------------
      * Model Relations
      *--------------------------------------------------------------------------
      */
-    public function merchant()
+    public function store()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Store::class);
     }
 
-    public function products()
-    {
-        return $this->hasMany(Product::class);
-    }
 }

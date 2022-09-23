@@ -22,10 +22,16 @@ Route::group(['prefix' => 'auth'], function () {
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'stores',], function () {
        Route::group(['middleware' =>'UserType:' . UserType::MERCHANT], function () {
-         Route::post('/', 'StoreController@store');
-         Route::put('/{store}', 'StoreController@update')->middleware('can:update,store');
+          Route::post('/', 'StoreController@store');
+          Route::put('/{store}', 'StoreController@update')->middleware('can:update,store');
+ 
+          Route::group(['prefix' => '{store}/products',], function () {
+            Route::post('/', 'ProductController@store')->middleware('can:createProduct,store');
+            Route::put('/{product}', 'ProductController@update');
+         });
        });
        Route::get('/{store}', 'StoreController@show');
        Route::get('/', 'StoreController@index');
     });
+
 });

@@ -54,4 +54,5 @@ class StoreController extends Controller
     {
         return new StoreResource($store);
     }
+
 }
