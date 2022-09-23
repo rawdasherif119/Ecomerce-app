@@ -54,7 +54,7 @@ class User extends Authenticatable
      * Model Relations
      *--------------------------------------------------------------------------
      */
-    public function store()
+    public function stores()
     {
         return $this->hasMany(Store::class);
     }

@@ -25,7 +25,7 @@ class StoreController extends Controller
      */
     public function store(MerchantStoreRequest $request): Response
     {
-        $this->service->create($request->validated() ,auth()->user()->store());
+        $this->service->create($request->validated() ,auth()->user()->stores());
         return response()->noContent(Response::HTTP_CREATED);
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\UserType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,9 +20,11 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', 'AuthController@login')->name('api.login');
 });
 Route::group(['middleware' => 'auth:api'], function () {
-  Route::group(['prefix' => 'stores'], function () {
-      Route::post('/', 'StoreController@store');
-      Route::put('/{store}', 'StoreController@update');
-      Route::get('/{store}', 'StoreController@show');
-  });
+    Route::group(['prefix' => 'stores',], function () {
+       Route::group(['middleware' =>'UserType:' . UserType::MERCHANT], function () {
+         Route::post('/', 'StoreController@store');
+         Route::put('/{store}', 'StoreController@update')->middleware('can:update,store');
+       });
+       Route::get('/{store}', 'StoreController@show');
+    });
 });
