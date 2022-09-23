@@ -56,6 +56,10 @@ interface BaseRepositoryInterface
 
     public function sync($relation, $data, $pivots = []);
 
+    public function attach($relation, $id, $pivots = []);
+
+    public function detach($relation, $id = null);
+
     public function paginateRelation($relation, $perPage = 15, $columns = ['*'],
         $orderBy = 'created_at', $sort = 'DESC'
     );

@@ -22,4 +22,9 @@ class Product extends Model
         return $this->belongsTo(Store::class);
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(Product::class, 'user_product', 'product_id', 'user_id');
+    }
+
 }

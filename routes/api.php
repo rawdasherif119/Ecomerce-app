@@ -25,13 +25,18 @@ Route::group(['middleware' => 'auth:api'], function () {
           Route::post('/', 'StoreController@store');
           Route::put('/{store}', 'StoreController@update')->middleware('can:update,store');
  
-          Route::group(['prefix' => '{store}/products',], function () {
+          Route::group(['prefix' => '{store}/products'], function () {
             Route::post('/', 'ProductController@store')->middleware('can:createProduct,store');
             Route::put('/{product}', 'ProductController@update');
          });
        });
        Route::get('/{store}', 'StoreController@show');
        Route::get('/', 'StoreController@index');
+    });
+
+    Route::group(['prefix' => '/users/products','middleware' =>'UserType:' . UserType::BUYER], function () {
+       Route::post('/{product}', 'UserProductController@store');
+       Route::delete('/{product}', 'UserProductController@delete');
     });
 
 });

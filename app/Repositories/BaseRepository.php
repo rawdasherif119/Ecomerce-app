@@ -447,7 +447,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
     }
 
     /**
-     * @param string $relation
+     * @param object $relation
      * @param array $ids
      * @param array $pivots
      */
@@ -458,6 +458,24 @@ abstract class BaseRepository implements BaseRepositoryInterface
             $data      = array_combine($data, $pivotData);
         }
         return $relation->sync($data);
+    }
+
+    /**
+     * @param  object $relation
+     * @param  int $id
+     */
+    public function attach($relation, $id, $pivots = [])
+    {
+        return $relation->attach($id, $pivots);
+    }
+
+    /**
+     * @param  object $relation
+     * @param  int|array $id
+     */
+    public function detach($relation, $id = null)
+    {
+        return $id ? $relation->detach($id) : $relation->detach();
     }
 
     /**

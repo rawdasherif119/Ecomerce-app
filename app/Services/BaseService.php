@@ -144,6 +144,24 @@ class BaseService
     }
 
     /**
+     * @param  object $relation
+     * @param  int $id
+     */
+    public function attach($relation, $id, $pivots = [])
+    {
+        return $this->repo->attach($relation,$id, $pivots);
+    }
+
+    /**
+     * @param  object $relation
+     * @param  int|array $id
+     */
+    public function detach($relation, $id = null)
+    {
+        return $this->repo->detach($relation, $id);
+    }
+
+    /**
      * @param string $relation
      * @param int $perPage
      * @param string $orderBy
