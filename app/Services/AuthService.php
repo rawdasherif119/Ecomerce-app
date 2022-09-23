@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Services\BaseService;
 use Illuminate\Http\Response;
 use App\Resources\ErrorResource;
+use Illuminate\Http\JsonResponse;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\AuthenticatesUsersApi;
@@ -24,25 +25,23 @@ class AuthService extends BaseService
      * @param  array $data
      * @param  ServerRequestInterface $serverRequest
      */
-    public function login($data, $serverRequest)
+    public function login($data, $serverRequest): array
     {
         $user = $this->repo->findBy('email', $data['email']);
         if ($user) {
             if (!Hash::check($data['password'], $user->getAuthPassword())) {
                 abort(new ErrorResource(Response::HTTP_UNAUTHORIZED, __('auth.invalid_credentials')));
             }
-            return $this->requestTokenToLogin($serverRequest, $user, $data);
+            return $this->requestTokenToLogin($serverRequest, $data);
         }
         abort(new ErrorResource(Response::HTTP_UNAUTHORIZED, __('auth.invalid_credentials')));
     }
 
     /**
-     * @param  array $data
-     * @param  object $user
      * @param  ServerRequestInterface $serverRequest
-     * @return \Illuminate\Http\JsonResponse
+     * @param  array $data
      */
-    public function requestTokenToLogin($serverRequest, $user, $data)
+    public function requestTokenToLogin($serverRequest, $data) :array
     {
         $result = $this->tokenRequest($serverRequest, $data, false);
         if (($result['statusCode'] == Response::HTTP_OK)) {

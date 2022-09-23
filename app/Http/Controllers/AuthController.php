@@ -28,7 +28,7 @@ class AuthController extends Controller
     }
 
     /**
-     * @param  \Illuminate\Http\LoginRequest  $request
+     * @param  LoginRequest  $request
      * @param  ServerRequestInterface $serverRequest
      */
     public function login(LoginRequest $request, ServerRequestInterface $serverRequest): JsonResponse
