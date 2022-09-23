@@ -1,67 +1,92 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## About E-commerce
 
-## About Laravel
+**Setup**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+After Installing, take a copy for .env.example to .env and fill out the system database connection
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1 -
+```sh
+composer install
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+2-
+```sh
+php artisan migrate
+```
 
-## Learning Laravel
+3-
+```sh
+php artisan key:generate
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+4-
+```sh
+php artisan passport:install
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+7- To have a dummy data, run the seeders:
+```sh
+php artisan db:seed
+```
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+9- Register User and login api are found in the postman collection 
+Or you can use this user directly without register (olso exist as example in collection)
 
-### Premium Partners
+Marchant :
+```sh
+email:MerchantTest@gmail.com 
+```
+```sh
+password:12345678:
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+User :
+```sh
+email:UserTest@gmail.com 
+```
+```sh
+password:12345678:
+```
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+10- Postman Collection: [Postman Collection](https://documenter.getpostman.com/view/6589767/2s7ZT9Q4GG).
+***
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+**Example**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+When You try to login with userTest (which provided in seeder) he buy 4 
+ 2 from store 1 which (VAT calculated from the product price)
+   VAT Percantage -> 20
+   Shipping cost  -> 30
 
-## License
+   product1=10000
+   product2=20000
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# Ecomerce-app
+ 2 from store 2 which (VAT is included in the product price)
+   Shipping cost  -> 50
+
+   product3=5000
+   product4=1000
+
+ if you use api to get total in cart
+ All prices with vat   + all Shipping cost
+ ((10000 + 10000*0.2) + (20000 + 20000*0.2) + 5000 + 1000) + (30+50) = 42080
+ 
+```sh
+ Api Url : (GET)   {{url}}/api/users/products  
+```
+
+ if you use api to get total in cart in each store
+ All prices with vat   + all Shipping cost
+ (10000 + 10000*0.2) + (20000 + 20000*0.2) + 30 = 36030
+ 
+ ```sh
+ Api Url : (GET)   {{url}}/api/users/products/{store} 
+        inOurCase ->  {{url}}/api/users/products/1
+```
+ 
