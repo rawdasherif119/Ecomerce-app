@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
+use App\Models\Store;
 use App\Models\Product;
 use App\Services\UserService;
 use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 class UserProductController extends Controller
 {
@@ -32,5 +35,26 @@ class UserProductController extends Controller
     {
         $this->service->removeProduct($product);
         return response()->noContent(Response::HTTP_OK);
+    }
+
+    /** 
+     * Calculate the cart’s total 
+     *  But here we have two cases : 
+     *    1- There is only one cart for all stores  
+     *       buyer can buy many products from more than one store
+     *       ----> (So calculate total for all on one)
+     *       ----> in this case route  (/api/users/products/{store})
+     *       
+     *    2- Each store have its own cart for each user
+     *       ----> (So calculate total for each store) 
+     *       ----> in this case route  (/api/users/products)
+     * 
+     *  @param  Store  $store
+     */
+    public function index(Store $store) : Response
+    {
+        return response(
+            $this->service->index($store)
+        );
     }
 }

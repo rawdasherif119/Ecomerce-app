@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => '/users/products','middleware' =>'UserType:' . UserType::BUYER], function () {
        Route::post('/{product}', 'UserProductController@store');
        Route::delete('/{product}', 'UserProductController@delete');
+       Route::get('/{store?}', 'UserProductController@index');
     });
 
 });

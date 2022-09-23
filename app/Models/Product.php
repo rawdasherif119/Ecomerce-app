@@ -10,7 +10,15 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','description', 'price'];
+    protected $fillable = ['name', 'description', 'price'];
+
+
+    public function getgrossPriceAttribute()
+    {
+        return $this->store->vat_percentage ?
+            $this->price + ($this->price * ($this->store->vat_percentage / 100)) :
+            $this->price;
+    }
 
     /**
      *--------------------------------------------------------------------------
@@ -26,5 +34,4 @@ class Product extends Model
     {
         return $this->belongsToMany(Product::class, 'user_product', 'product_id', 'user_id');
     }
-
 }
