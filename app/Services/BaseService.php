@@ -66,6 +66,15 @@ class BaseService
      * @param array $data
      * @param $relation
      */
+    public function createMultiple($data, $relation = null)
+    {
+        return $this->repo->createMultiple($data, $relation);
+    }
+
+    /**
+     * @param array $data
+     * @param $relation
+     */
     public function createWithRelations($data, $relation = null)
     {
         return $this->repo->createWithRelations($data, $relation);

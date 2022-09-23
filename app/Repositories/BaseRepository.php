@@ -178,7 +178,6 @@ abstract class BaseRepository implements BaseRepositoryInterface
             $query = $query->orderBy($column, $sort);
         }
         return $query->paginate($parPage, $columns);
-
     }
 
     /**
@@ -257,9 +256,10 @@ abstract class BaseRepository implements BaseRepositoryInterface
     /**
      * @param array $data
      */
-    public function createMultiple(array $data)
+    public function createMultiple(array $data, $relation = null)
     {
-        $this->model->createMany($data);
+        $model = $relation ? $relation : $this->model;
+        return $model->createMany($data);
     }
 
     /**
@@ -337,8 +337,8 @@ abstract class BaseRepository implements BaseRepositoryInterface
     public function update($data, $id)
     {
         is_object($id) ?
-        $model = $id :
-        $model = $this->findOrFail($id);
+            $model = $id :
+            $model = $this->findOrFail($id);
 
         $model->fill($data)->save();
 
@@ -354,8 +354,8 @@ abstract class BaseRepository implements BaseRepositoryInterface
     public function updateWithRelation($data, $id)
     {
         is_object($id) ?
-        $model = $id :
-        $model = $this->findOrFail($id);
+            $model = $id :
+            $model = $this->findOrFail($id);
 
         $model->fill($data)->save();
 
@@ -376,11 +376,10 @@ abstract class BaseRepository implements BaseRepositoryInterface
         }
 
         is_object($id) ?
-        $model = $id :
-        $model = $this->findOrFail($id);
+            $model = $id :
+            $model = $this->findOrFail($id);
 
         return $model->delete();
-
     }
 
     /**
@@ -391,8 +390,8 @@ abstract class BaseRepository implements BaseRepositoryInterface
     public function forceDelete($id)
     {
         is_object($id) ?
-        $model = $id :
-        $model = $this->findOrFail($id);
+            $model = $id :
+            $model = $this->findOrFail($id);
 
         return $model->forceDelete();
     }
@@ -470,8 +469,12 @@ abstract class BaseRepository implements BaseRepositoryInterface
      *
      * @return LengthAwarePaginator
      */
-    public function paginateRelation($relation, $perPage = 15, $columns = ['*'],
-        $orderBy = 'created_at', $sort = 'DESC'
+    public function paginateRelation(
+        $relation,
+        $perPage = 15,
+        $columns = ['*'],
+        $orderBy = 'created_at',
+        $sort = 'DESC'
     ) {
         return $relation
             ->filter($this->filter)
@@ -518,5 +521,4 @@ abstract class BaseRepository implements BaseRepositoryInterface
         $model->forceDelete();
         return $model->createMany($data);
     }
-
 }
