@@ -26,5 +26,6 @@ Route::group(['middleware' => 'auth:api'], function () {
          Route::put('/{store}', 'StoreController@update')->middleware('can:update,store');
        });
        Route::get('/{store}', 'StoreController@show');
+       Route::get('/', 'StoreController@index');
     });
 });

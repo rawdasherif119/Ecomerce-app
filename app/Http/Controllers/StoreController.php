@@ -20,12 +20,20 @@ class StoreController extends Controller
         $this->service = $service;
     }
 
+    /** List All Stores */
+    public function index(): JsonResource
+    {
+        return StoreResource::collection(
+            $this->service->getPaginated()
+        );
+    }
+
     /**
      * @param  MerchantStoreRequest  $request
      */
     public function store(MerchantStoreRequest $request): Response
     {
-        $this->service->create($request->validated() ,auth()->user()->stores());
+        $this->service->create($request->validated(), auth()->user()->stores());
         return response()->noContent(Response::HTTP_CREATED);
     }
 
@@ -33,7 +41,7 @@ class StoreController extends Controller
      * @param  MerchantStoreRequest  $request
      * @param  Store $store 
      */
-    public function update(MerchantStoreRequest $request ,Store $store): Response
+    public function update(MerchantStoreRequest $request, Store $store): Response
     {
         $this->service->update($request->validated(), $store);
         return response()->noContent(Response::HTTP_OK);

@@ -154,8 +154,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
     {
         $query = $this->applyScopes($this->model->newQuery());
 
-        $query->with($this->requiredRelationships)
-            ->filter($this->filter);
+        $query->with($this->requiredRelationships);
         foreach ($orders as $column => $sort) {
             $query = $query->orderBy($column, $sort);
         }
@@ -174,8 +173,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
     public function getPaginated($parPage = 15, $columns = ['*'], $orders = ['created_at' => 'DESC'])
     {
         $query = $this->applyScopes($this->model->newQuery());
-        $query->with($this->requiredRelationships)
-            ->filter($this->filter);
+        $query->with($this->requiredRelationships);
         foreach ($orders as $column => $sort) {
             $query = $query->orderBy($column, $sort);
         }
