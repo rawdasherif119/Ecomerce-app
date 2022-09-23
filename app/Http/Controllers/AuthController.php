@@ -24,7 +24,7 @@ class AuthController extends Controller
     public function register(StoreUserRequest $request): Response
     {
         $this->service->create($request->all());
-        return response()->noContent(Response::HTTP_OK);
+        return response()->noContent(Response::HTTP_CREATED);
     }
 
     /**

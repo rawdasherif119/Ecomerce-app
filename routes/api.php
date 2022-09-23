@@ -18,3 +18,10 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/register', 'AuthController@register')->name('api.register');
     Route::post('/login', 'AuthController@login')->name('api.login');
 });
+Route::group(['middleware' => 'auth:api'], function () {
+  Route::group(['prefix' => 'stores'], function () {
+      Route::post('/', 'StoreController@store');
+      Route::put('/{store}', 'StoreController@update');
+      Route::get('/{store}', 'StoreController@show');
+  });
+});
